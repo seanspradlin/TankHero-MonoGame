@@ -53,10 +53,15 @@
     <Compile Include="TexturePackerLoader\SpriteRender.cs" />
     <Compile Include="TexturePackerLoader\SpriteSheet.cs" />
     <Compile Include="TexturePackerLoader\SpriteSheetLoader.cs" />
+    <Compile Include="Content\sprites.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />
     <None Include="packages.config" />
+    <None Include="Content\sprites.png" />
+    <None Include="Content\sprites.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />
