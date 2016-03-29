@@ -4,13 +4,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.Input;
+using TexturePackerLoader;
 
 namespace TankHero
 {
 	public class TankHero : Game
 	{
+		public SpriteBatch SpriteBatch;
 		GraphicsDeviceManager graphics;
-		SpriteBatch spriteBatch;
+		SpriteSheet spriteSheet;
+		SpriteRender spriteRender;
 
 		public TankHero ()
 		{
@@ -20,7 +23,10 @@ namespace TankHero
 
 		protected override void LoadContent ()
 		{
-			spriteBatch = new SpriteBatch (GraphicsDevice);
+			var loader = new SpriteSheetLoader (Content);
+			spriteSheet = loader.Load ("sprites");
+			SpriteBatch = new SpriteBatch (GraphicsDevice);
+			spriteRender = new SpriteRender (SpriteBatch);
 		}
 
 		protected override void Update (GameTime gameTime)
@@ -35,6 +41,14 @@ namespace TankHero
 		protected override void Draw (GameTime gameTime)
 		{
 			graphics.GraphicsDevice.Clear (Color.CornflowerBlue);
+
+			SpriteBatch.Begin ();
+			spriteRender.Draw (
+				spriteSheet.Sprite (TexturePackerMonoGameDefinitions.sprites.Player_body_1),
+				new Vector2 (150, 150)
+			);
+			SpriteBatch.End ();
+
 			base.Draw (gameTime);
 		}
 	}

@@ -1,65 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace TankHero
 {
-	public class GameObject
+	namespace Engine
 	{
-		public AnimationManager Animations;
-		public Vector2 Position;
-		public Texture2D Texture;
-		public Rectangle Bounds;
-		TankHero game;
-
-		public GameObject (TankHero g, Texture2D texture, Vector2 position)
+		public class GameObject
 		{
-			game = g;
-			Position = position;
-			Texture = texture;
-			Bounds = texture.Bounds;
-			Animations = new AnimationManager (this);
-		}
-	}
+			public AnimationManager Animations { get; }
 
-	public class AnimationManager
-	{
-		GameObject gameObject;
-		Dictionary<string, Animation> animations;
+			public Vector2 Position { get; set; }
 
-		public AnimationManager (GameObject go)
-		{
-			gameObject = go;
-			Add ("default", new[]{ go.Texture });
-		}
+			public Texture2D Texture { get; set; }
 
-		public void Add (string key, Texture2D[] frames, int framerate = 0)
-		{
-			
-		}
+			public Rectangle Bounds { get; set; }
 
-		public void Play (string key)
-		{
+			TankHero game;
 
-		}
-
-		public Texture2D Draw ()
-		{
-			
-		}
-	}
-
-	public class Animation
-	{
-		public string Key { get; }
-
-		Texture2D frames;
-		AnimationManager manager;
-
-		public Animation ()
-		{
-			
+			public GameObject (TankHero g, Texture2D texture, Vector2 position)
+			{
+				game = g;
+				Position = position;
+				Texture = texture;
+				Bounds = texture.Bounds;
+				Animations = new AnimationManager (this);
+			}
 		}
 	}
 }
