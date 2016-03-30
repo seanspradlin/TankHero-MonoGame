@@ -9,9 +9,9 @@ using TankHero.Engine;
 
 namespace TankHero
 {
-	public class TankHero : Game, IGame
+	public class TankHero : Game
 	{
-		public SpriteBatch SpriteBatch { get; set; }
+		SpriteBatch spriteBatch;
 		GraphicsDeviceManager graphics;
 		SpriteSheet spriteSheet;
 		SpriteRender spriteRender;
@@ -26,8 +26,8 @@ namespace TankHero
 		{
 			var loader = new SpriteSheetLoader (Content);
 			spriteSheet = loader.Load ("sprites");
-			SpriteBatch = new SpriteBatch (GraphicsDevice);
-			spriteRender = new SpriteRender (SpriteBatch);
+			spriteBatch = new SpriteBatch (GraphicsDevice);
+			spriteRender = new SpriteRender (spriteBatch);
 		}
 
 		protected override void Update (GameTime gameTime)
@@ -43,12 +43,12 @@ namespace TankHero
 		{
 			graphics.GraphicsDevice.Clear (Color.CornflowerBlue);
 
-			SpriteBatch.Begin ();
+			spriteBatch.Begin ();
 			spriteRender.Draw (
 				spriteSheet.Sprite (TexturePackerMonoGameDefinitions.sprites.Player_body_1),
 				new Vector2 (150, 150)
 			);
-			SpriteBatch.End ();
+			spriteBatch.End ();
 
 			base.Draw (gameTime);
 		}

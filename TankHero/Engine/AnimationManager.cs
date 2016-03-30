@@ -41,7 +41,7 @@ namespace TankHero.Engine
 			}
 		}
 
-		public IGame Game { get; }
+		public Game Game { get; }
 
 		#endregion
 

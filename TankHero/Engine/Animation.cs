@@ -42,7 +42,7 @@ namespace TankHero.Engine
 
 		public string Key { get; }
 
-		public IGame Game { get; }
+		public Game Game { get; }
 
 		#endregion
 

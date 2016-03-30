@@ -12,24 +12,23 @@ namespace TankHero.Engine
 
 		#region Constructors
 
-		public GameObject (IGame game, Texture2D texture, Vector2 position)
+		public GameObject (Game game, Texture2D texture, Vector2 position)
 			: this (game, position)
 		{
 			Bounds = texture.Bounds;
 			Animations = new AnimationManager (this, texture);
 		}
 
-		public GameObject (IGame game, Texture2D[] textures, Vector2 position)
+		public GameObject (Game game, Texture2D[] textures, Vector2 position)
 			: this (game, position)
 		{
 			Bounds = textures [0].Bounds;
 			Animations = new AnimationManager (this, textures);
 		}
 
-		GameObject (IGame game, Vector2 position)
+		GameObject (Game game, Vector2 position)
 			: base (game)
 		{
-			Game = game;
 			Position = position;
 			game.Components.Add (this);
 		}
@@ -41,8 +40,6 @@ namespace TankHero.Engine
 		public AnimationManager Animations { get; }
 
 		public Rectangle Bounds { get; set; }
-
-		public IGame Game { get; }
 
 		public Vector2 Position { get; set; }
 
