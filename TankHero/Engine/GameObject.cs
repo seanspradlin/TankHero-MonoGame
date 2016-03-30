@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TankHero.Engine
 {
-	public class GameObject
+	public class GameObject : GameComponent
 	{
 		#region Fields
 
@@ -27,9 +27,11 @@ namespace TankHero.Engine
 		}
 
 		GameObject (IGame game, Vector2 position)
+			: base (game)
 		{
 			Game = game;
 			Position = position;
+			game.Components.Add (this);
 		}
 
 		#endregion
