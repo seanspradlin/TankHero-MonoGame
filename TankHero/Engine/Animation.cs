@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using TexturePackerLoader;
 
 namespace TankHero.Engine
 {
@@ -9,14 +10,15 @@ namespace TankHero.Engine
 		#region Fields
 
 		int currentFrame = 0;
-		Texture2D[] frames;
+		int lastChange = 0;
+		SpriteFrame[] frames;
 		AnimationManager manager;
 
 		#endregion
 
 		#region Constructors
 
-		public Animation (AnimationManager m, Texture2D[] f, int fps = 0)
+		public Animation (AnimationManager m, SpriteFrame[] f, int fps = 0)
 		{
 			if (f.Length == 0) {
 				throw new Exception ("There must be at least one texture");
@@ -32,7 +34,7 @@ namespace TankHero.Engine
 
 		#region Properties
 
-		public Texture2D Frame {
+		public SpriteFrame Frame {
 			get {
 				return frames [currentFrame];
 			}
@@ -40,20 +42,26 @@ namespace TankHero.Engine
 
 		public int FramesPerSecond { get; set; }
 
-		public string Key { get; }
-
 		public Game Game { get; }
+
+		int delta { 
+			get {
+				return 1000 / FramesPerSecond;
+			}
+		}
 
 		#endregion
 
 		#region Methods
 
-		void Next ()
+		void Next (GameTime gameTime)
 		{
-			if (currentFrame < frames.Length) {
-				currentFrame++;
-			} else {
-				currentFrame = 0;
+			if (lastChange + delta <= gameTime) {
+				if (currentFrame < frames.Length) {
+					currentFrame++;
+				} else {
+					currentFrame = 0;
+				}
 			}
 		}
 
