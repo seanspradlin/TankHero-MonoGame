@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using TexturePackerLoader;
 
 namespace TankHero.Engine
 {
@@ -17,25 +18,25 @@ namespace TankHero.Engine
 
 		#region Constructors
 
-		public AnimationManager (GameObject go, Texture2D texture)
-			: this (go, new[] { texture })
+		public AnimationManager (GameObject go, SpriteFrame frame)
+			: this (go, new[] { frame })
 		{
 		}
 
-		public AnimationManager (GameObject go, Texture2D[] textures)
+		public AnimationManager (GameObject go, SpriteFrame[] frames)
 		{
 			gameObject = go;
 			animations = new Dictionary<string, Animation> ();
 			currentAnimation = "default";
 			Game = gameObject.Game;
-			Add (currentAnimation, textures);
+			Add (currentAnimation, frames);
 		}
 
 		#endregion
 
 		#region Properties
 
-		public Texture2D CurrentFrame {
+		public SpriteFrame CurrentFrame {
 			get {
 				return animations [currentAnimation].Frame;
 			}
@@ -47,7 +48,7 @@ namespace TankHero.Engine
 
 		#region Methods
 
-		public void Add (string key, Texture2D[] frames, int framerate = 0)
+		public void Add (string key, SpriteFrame[] frames, int framerate = 0)
 		{
 			var animation = new Animation (this, frames, framerate);
 			animations.Add (key, animation);

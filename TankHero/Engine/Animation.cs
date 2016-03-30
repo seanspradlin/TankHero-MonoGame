@@ -56,7 +56,7 @@ namespace TankHero.Engine
 
 		void Next (GameTime gameTime)
 		{
-			if (lastChange + delta <= gameTime) {
+			if (lastChange + delta <= gameTime.ElapsedGameTime.Milliseconds) {
 				if (currentFrame < frames.Length) {
 					currentFrame++;
 				} else {
