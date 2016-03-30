@@ -6,14 +6,9 @@ namespace TankHero.Engine
 {
     public class Animation
     {
-        public string Key { get; }
-
-        public int FramesPerSecond { get; set; }
-
+        int currentFrame = 0;
         Texture2D[] frames;
         AnimationManager manager;
-        TankHero game;
-        int currentFrame = 0;
 
         public Animation(AnimationManager m, Texture2D[] f, int fps = 0)
         {
@@ -23,14 +18,24 @@ namespace TankHero.Engine
             }
 
             manager = m;
+            Game = m.Game;
             frames = f;
             FramesPerSecond = fps;
         }
 
-        public void Draw()
+        public Texture2D Frame
         {
-
+            get
+            {
+                return frames[currentFrame];
+            }
         }
+
+        public int FramesPerSecond { get; set; }
+
+        public string Key { get; }
+
+        public IGame Game { get; }
     }
 }
 

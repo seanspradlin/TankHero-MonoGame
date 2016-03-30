@@ -7,6 +7,7 @@ namespace TankHero.Engine
 {
     public class AnimationManager
     {
+        public IGame Game { get; }
         TankHero game;
         GameObject gameObject;
         Dictionary<string, Animation> animations;
@@ -15,6 +16,7 @@ namespace TankHero.Engine
         public AnimationManager(GameObject go)
         {
             gameObject = go;
+            Game = gameObject.Game;
             currentAnimation = "default";
             Add(currentAnimation, new[] { go.Texture });
         }

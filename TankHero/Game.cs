@@ -5,12 +5,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.Input;
 using TexturePackerLoader;
+using TankHero.Engine;
 
 namespace TankHero
 {
-	public class TankHero : Game
+	public class TankHero : Game, IGame
 	{
-		public SpriteBatch SpriteBatch;
+		public SpriteBatch SpriteBatch { get; set; }
 		GraphicsDeviceManager graphics;
 		SpriteSheet spriteSheet;
 		SpriteRender spriteRender;

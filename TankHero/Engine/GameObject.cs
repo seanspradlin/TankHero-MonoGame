@@ -6,6 +6,7 @@ namespace TankHero.Engine
 {
     public class GameObject
     {
+        public IGame Game { get; }
         public AnimationManager Animations { get; }
 
         public Vector2 Position { get; set; }
@@ -14,11 +15,9 @@ namespace TankHero.Engine
 
         public Rectangle Bounds { get; set; }
 
-        TankHero game;
-
-        public GameObject(TankHero g, Texture2D texture, Vector2 position)
+        public GameObject(IGame game, Texture2D texture, Vector2 position)
         {
-            game = g;
+            Game = game;
             Position = position;
             Texture = texture;
             Bounds = texture.Bounds;
