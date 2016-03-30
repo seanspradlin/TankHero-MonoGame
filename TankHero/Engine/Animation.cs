@@ -6,9 +6,15 @@ namespace TankHero.Engine
 {
 	public class Animation
 	{
+		#region Fields
+
 		int currentFrame = 0;
 		Texture2D[] frames;
 		AnimationManager manager;
+
+		#endregion
+
+		#region Constructors
 
 		public Animation (AnimationManager m, Texture2D[] f, int fps = 0)
 		{
@@ -22,6 +28,10 @@ namespace TankHero.Engine
 			FramesPerSecond = fps;
 		}
 
+		#endregion
+
+		#region Properties
+
 		public Texture2D Frame {
 			get {
 				return frames [currentFrame];
@@ -33,6 +43,8 @@ namespace TankHero.Engine
 		public string Key { get; }
 
 		public IGame Game { get; }
+
+		#endregion
 	}
 }
 

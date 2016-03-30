@@ -5,44 +5,63 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TankHero.Engine
 {
-    public class AnimationManager
-    {
-        public IGame Game { get; }
-        TankHero game;
-        GameObject gameObject;
-        Dictionary<string, Animation> animations;
-        string currentAnimation;
+	public class AnimationManager
+	{
+		#region Fields
 
-        public AnimationManager(GameObject go)
-        {
-            gameObject = go;
-            Game = gameObject.Game;
-            currentAnimation = "default";
-            Add(currentAnimation, new[] { go.Texture });
-        }
+		Dictionary<string, Animation> animations;
+		string currentAnimation;
+		GameObject gameObject;
 
-        public void Add(string key, Texture2D[] frames, int framerate = 0)
-        {
-            var animation = new Animation(this, frames, framerate);
-            animations.Add(key, animation);
-        }
+		#endregion
 
-        public void Play(string key)
-        {
-            if (animations.ContainsKey(key))
-            {
-                currentAnimation = key;
-            }
-            else
-            {
-                throw new KeyNotFoundException();
-            }
-        }
+		#region Constructors
 
-        public Texture2D Draw()
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public AnimationManager (GameObject go, Texture2D texture)
+			: this (go, new[] { texture })
+		{
+		}
+
+		public AnimationManager (GameObject go, Texture2D[] textures)
+		{
+			gameObject = go;
+			animations = new Dictionary<string, Animation> ();
+			currentAnimation = "default";
+			Game = gameObject.Game;
+			Add (currentAnimation, textures);
+		}
+
+		#endregion
+
+		#region Properties
+
+		public IGame Game { get; }
+
+		#endregion
+
+		#region Methods
+
+		public void Add (string key, Texture2D[] frames, int framerate = 0)
+		{
+			var animation = new Animation (this, frames, framerate);
+			animations.Add (key, animation);
+		}
+
+		public Texture2D Draw ()
+		{
+			throw new NotImplementedException ();
+		}
+
+		public void Play (string key)
+		{
+			if (animations.ContainsKey (key)) {
+				currentAnimation = key;
+			} else {
+				throw new KeyNotFoundException ();
+			}
+		}
+
+		#endregion
+	}
 }
 
