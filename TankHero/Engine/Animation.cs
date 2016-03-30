@@ -9,6 +9,7 @@ namespace TankHero.Engine
 	{
 		#region Fields
 
+		bool isPlaying = true;
 		int currentFrame = 0;
 		int lastChange = 0;
 		SpriteFrame[] frames;
@@ -54,13 +55,27 @@ namespace TankHero.Engine
 
 		#region Methods
 
+		void Play ()
+		{
+			if (frames.Length > 0) {
+				isPlaying = true;
+			}
+		}
+
+		void Stop ()
+		{
+			isPlaying = false;
+		}
+
 		void Next (GameTime gameTime)
 		{
-			if (lastChange + delta <= gameTime.ElapsedGameTime.Milliseconds) {
-				if (currentFrame < frames.Length) {
-					currentFrame++;
-				} else {
-					currentFrame = 0;
+			if (isPlaying) {
+				if (lastChange + delta <= gameTime.ElapsedGameTime.Milliseconds) {
+					if (currentFrame < frames.Length) {
+						currentFrame++;
+					} else {
+						currentFrame = 0;
+					}
 				}
 			}
 		}
