@@ -35,6 +35,12 @@ namespace TankHero.Engine
 
 		#region Properties
 
+		public Texture2D CurrentFrame {
+			get {
+				return animations [currentAnimation].Frame;
+			}
+		}
+
 		public IGame Game { get; }
 
 		#endregion
@@ -45,11 +51,6 @@ namespace TankHero.Engine
 		{
 			var animation = new Animation (this, frames, framerate);
 			animations.Add (key, animation);
-		}
-
-		public Texture2D Draw ()
-		{
-			throw new NotImplementedException ();
 		}
 
 		public void Play (string key)
