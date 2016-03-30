@@ -45,6 +45,19 @@ namespace TankHero.Engine
 		public IGame Game { get; }
 
 		#endregion
+
+		#region Methods
+
+		void Next ()
+		{
+			if (currentFrame < frames.Length) {
+				currentFrame++;
+			} else {
+				currentFrame = 0;
+			}
+		}
+
+		#endregion
 	}
 }
 
