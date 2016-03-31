@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TexturePackerLoader;
@@ -15,13 +17,21 @@ namespace TankHero.Engine
 
 		#region Constructors
 
-		public GameObject (SGame game, SpriteFrame spriteFrame, Vector2 position) : base (game as Game)
+		public GameObject (SGame game, SpriteFrame spriteFrame, Vector2 position)
+			: base (game as Game)
 		{
 			Game = game;
 			Position = position;
 			game.Components.Add (this);
 			_sprite = spriteFrame;
 			Animations = new AnimationManager (this);
+			Children = new Dictionary<string, GameObject> ();
+		}
+
+		public GameObject (GameObject parent, SpriteFrame spriteFrame, Vector2 position)
+			: this (parent.Game, spriteFrame, position)
+		{
+			Parent = parent;
 		}
 
 		#endregion
@@ -32,9 +42,25 @@ namespace TankHero.Engine
 
 		public Rectangle Bounds { get; set; }
 
+		public Dictionary<string, GameObject> Children { get; }
+
 		public new SGame Game { get; }
 
+		public GameObject Parent { get; }
+
 		public Vector2 Position { get; set; }
+
+		public Vector2 GlobalPosition {
+			get {
+				if (Parent == null) {
+					return Position;
+				} else {
+					var x = Parent.Position.X + Position.X;
+					var y = Parent.Position.Y + Position.Y;
+					return new Vector2 (x, y);
+				}
+			}
+		}
 
 		public SpriteFrame Sprite { 
 			get {
@@ -50,6 +76,16 @@ namespace TankHero.Engine
 
 		#region Methods
 
+		public GameObject AddChild (string key, SpriteFrame spriteFrame, Vector2 position)
+		{
+			if (Children.ContainsKey (key)) {
+				throw new Exception ("Child key already in use");
+			}
+			var child = new GameObject (this, spriteFrame, position);
+			Children.Add (key, child);
+			return child;
+		}
+
 		public virtual void Update ()
 		{
 			Animations.Update ();
@@ -59,6 +95,9 @@ namespace TankHero.Engine
 		public void Draw ()
 		{
 			Game.Renderer.Draw (Sprite, Position);
+			Children.Values.ToList ().ForEach (x => {
+				Game.Renderer.Draw (x.Sprite, x.GlobalPosition);
+			});
 		}
 
 		#endregion

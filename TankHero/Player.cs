@@ -26,6 +26,8 @@ namespace TankHero
 			};
 			Animations.Add ("default", defaultAnim, 15);
 			Animations.Start ("default");
+
+			AddChild ("cannon", spriteSheet.Sprite (sprites.Player_cannon_1), new Vector2 (-50, -20));
 		}
 
 		#endregion
