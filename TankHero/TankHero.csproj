@@ -58,6 +58,7 @@
     <Compile Include="Engine\Animation.cs" />
     <Compile Include="Engine\AnimationManager.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="Engine\SGame.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />

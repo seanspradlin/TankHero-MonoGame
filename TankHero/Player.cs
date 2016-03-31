@@ -14,7 +14,7 @@ namespace TankHero
 
 		#region Constructors
 
-		public Player (Game game, SpriteFrame sprite, Vector2 position, SpriteSheet spriteSheet) : base (game, sprite, position)
+		public Player (SGame game, SpriteFrame sprite, Vector2 position, SpriteSheet spriteSheet) : base (game, sprite, position)
 		{
 			var defaultAnim = new[] {
 				spriteSheet.Sprite (sprites.Player_body_1),
@@ -24,8 +24,8 @@ namespace TankHero
 				spriteSheet.Sprite (sprites.Player_body_5),
 				spriteSheet.Sprite (sprites.Player_body_6),
 			};
-            Animations.Add("default", defaultAnim, 15);
-            Animations.Start("default");
+			Animations.Add ("default", defaultAnim, 15);
+			Animations.Start ("default");
 		}
 
 		#endregion

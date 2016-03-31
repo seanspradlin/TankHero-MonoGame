@@ -9,36 +9,17 @@ using TankHero.Engine;
 
 namespace TankHero
 {
-	public class TankHero : Game
+	public class TankHero : SGame
 	{
-		SpriteBatch spriteBatch;
-		GraphicsDeviceManager graphics;
 		SpriteSheet spriteSheet;
-		SpriteRender spriteRender;
 		Player player;
-
-		public TankHero ()
-		{
-			graphics = new GraphicsDeviceManager (this);
-			Content.RootDirectory = "Content";
-		}
 
 		protected override void LoadContent ()
 		{
 			var loader = new SpriteSheetLoader (Content);
 			spriteSheet = loader.Load ("sprites");
-			spriteBatch = new SpriteBatch (GraphicsDevice);
-			spriteRender = new SpriteRender (spriteBatch);
 			player = new Player (this, spriteSheet.Sprite (TexturePackerMonoGameDefinitions.sprites.Player_body_1), new Vector2 (200, 200), spriteSheet);
-		}
-
-		protected override void Update (GameTime gameTime)
-		{
-			#if !__IOS__ &&  !__TVOS__
-			if (GamePad.GetState (PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState ().IsKeyDown (Keys.Escape))
-				Exit ();
-			#endif
-			base.Update (gameTime);
+			base.LoadContent ();
 		}
 
 		protected override void Draw (GameTime gameTime)
@@ -50,7 +31,7 @@ namespace TankHero
 //				spriteSheet.Sprite (TexturePackerMonoGameDefinitions.sprites.Player_body_1),
 //				new Vector2 (150, 150)
 //			);
-			player.Draw (gameTime, spriteRender);
+			player.Draw (gameTime, Renderer);
 			spriteBatch.End ();
 
 			base.Draw (gameTime);

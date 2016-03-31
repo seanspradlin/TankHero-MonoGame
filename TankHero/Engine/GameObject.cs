@@ -7,55 +7,55 @@ namespace TankHero.Engine
 {
 	public class GameObject : GameComponent
 	{
-        #region Fields
+		#region Fields
 
-        SpriteFrame _sprite;
+		SpriteFrame _sprite;
 
 		#endregion
 
 		#region Constructors
 
-		public GameObject (Game game, SpriteFrame spriteFrame, Vector2 position): base(game)
+		public GameObject (SGame game, SpriteFrame spriteFrame, Vector2 position) : base (game as Game)
 		{
-            Position = position;
-            game.Components.Add(this);
-            _sprite = spriteFrame;
+			Game = game;
+			Position = position;
+			game.Components.Add (this);
+			_sprite = spriteFrame;
 		}
 
-        #endregion
+		#endregion
 
-        #region Properties
+		#region Properties
 
-        public AnimationManager Animations { get; } = new AnimationManager();
+		public AnimationManager Animations { get; } = new AnimationManager();
 
 		public Rectangle Bounds { get; set; }
+
+		public new SGame Game { get; }
 
 		public Vector2 Position { get; set; }
 
 		public SpriteFrame Sprite { 
 			get {
-                if (!Animations.IsPlaying)
-                {
-                    return _sprite;
-                }
-                else
-                {
-                    return Animations.CurrentFrame;
-                }
+				if (!Animations.IsPlaying) {
+					return _sprite;
+				} else {
+					return Animations.CurrentFrame;
+				}
 			}
 		}
 
-        #endregion
+		#endregion
 
-        #region Methods
+		#region Methods
 
-        public override void Update(GameTime gameTime)
-        {
-            Animations.Update(gameTime);
-            base.Update(gameTime);
-        }
+		public override void Update (GameTime gameTime)
+		{
+			Animations.Update (gameTime);
+			base.Update (gameTime);
+		}
 
-        public void Draw (GameTime gameTime, SpriteRender render)
+		public void Draw (GameTime gameTime, SpriteRender render)
 		{
 			render.Draw (Sprite, Position);
 		}
