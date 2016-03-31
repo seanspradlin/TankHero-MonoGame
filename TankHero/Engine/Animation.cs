@@ -25,7 +25,6 @@ namespace TankHero.Engine
 				throw new Exception ("There must be at least one texture");
 			}
 
-			Game = m.Game;
 			frames = f;
 			FramesPerSecond = fps;
 		}
@@ -42,8 +41,6 @@ namespace TankHero.Engine
 
 		public int FramesPerSecond { get; set; }
 
-		public Game Game { get; }
-
 		int delta { 
 			get {
 				if (FramesPerSecond == 0) {
@@ -57,7 +54,7 @@ namespace TankHero.Engine
 
 		#region Methods
 
-		public void Play ()
+		public void Start ()
 		{
 			if (frames.Length > 0) {
 				isPlaying = true;
@@ -69,24 +66,31 @@ namespace TankHero.Engine
 			isPlaying = false;
 		}
 
-		public void Next (GameTime gameTime)
-		{
-			Debug.WriteLine (isPlaying);
-			Debug.WriteLine (delta);
-			Debug.WriteLine (gameTime.ElapsedGameTime.Milliseconds);
-			if (isPlaying) {
-				if (delta > -1 && lastChange + delta <= gameTime.ElapsedGameTime.Milliseconds) {
-					if (currentFrame < frames.Length) {
-						lastChange = gameTime.ElapsedGameTime.Milliseconds;
-						currentFrame++;
-					} else {
-						currentFrame = 0;
-					}
-				}
-			}
-		}
+        public void Previous (GameTime gameTime)
+        {
+            if (currentFrame > 0)
+            {
+                currentFrame--;
+            } else
+            {
+                currentFrame = frames.Length;
+            }
+        }
 
-		#endregion
-	}
+        public void Next(GameTime gameTime)
+        {
+            if (currentFrame < frames.Length)
+            {
+                lastChange = gameTime.ElapsedGameTime.Milliseconds;
+                currentFrame++;
+            }
+            else
+            {
+                currentFrame = 0;
+            }
+        }
+
+        #endregion
+    }
 }
 
