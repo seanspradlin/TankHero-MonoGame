@@ -10,39 +10,35 @@ namespace TankHero.Engine
 	{
 		#region Fields
 
-		Dictionary<string, Animation> animations;
-		string currentAnimation;
-		GameObject gameObject;
+		Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
+        string currentAnimation;
+        bool isPlaying = false;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Properties
 
-		public AnimationManager (GameObject go, SpriteFrame frame)
-			: this (go, new[] { frame })
-		{
-		}
+        public Animation CurrentAnimation {
+            get {
+                if (!String.IsNullOrWhiteSpace(currentAnimation) 
+                    && animations.ContainsKey(currentAnimation))
+                {
+                    return animations[currentAnimation];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
 
-		public AnimationManager (GameObject go, SpriteFrame[] frames, int fps = 60)
-		{
-			gameObject = go;
-			animations = new Dictionary<string, Animation> ();
-			currentAnimation = "default";
-			Game = gameObject.Game;
-			Add (currentAnimation, frames, fps);
-		}
-
-		#endregion
-
-		#region Properties
-
-		public SpriteFrame CurrentFrame {
+        public SpriteFrame CurrentFrame {
 			get {
 				return animations [currentAnimation].Frame;
 			}
 		}
 
-		public Game Game { get; }
+        public bool Reverse { get; set; } = false;
 
 		#endregion
 
@@ -50,23 +46,62 @@ namespace TankHero.Engine
 
 		public void Add (string key, SpriteFrame[] frames, int framerate = 0)
 		{
-			var animation = new Animation (this, frames, framerate);
-			animations.Add (key, animation);
+            if (animations.ContainsKey(key))
+            {
+                throw new Exception("Animation key already exists");
+            }
+
+			animations.Add (key, new Animation (frames, framerate));
 		}
 
-		public void Play (string key)
+        public void Remove(string key)
+        {
+            if (animations.ContainsKey(key))
+            {
+                animations.Remove(key);
+            }
+        }
+
+        public void Start()
+        {
+            if (!String.IsNullOrWhiteSpace(currentAnimation))
+            {
+                isPlaying = true;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("currentAnimation cannot be null");
+            }
+        }
+
+		public void Start (string key)
 		{
 			if (animations.ContainsKey (key)) {
+                isPlaying = true;
 				currentAnimation = key;
 			} else {
 				throw new KeyNotFoundException ();
 			}
 		}
 
+        public void Stop ()
+        {
+            isPlaying = false;
+        }
+
 		public void Update (GameTime gameTime)
 		{
-			animations [currentAnimation].Next (gameTime);
-		}
+            if (isPlaying && CurrentAnimation != null)
+            {
+                if (Reverse)
+                {
+                    CurrentAnimation.Next(gameTime);
+                } else
+                {
+                    CurrentAnimation.Previous(gameTime);
+                }
+            }
+        }
 
 		#endregion
 	}
