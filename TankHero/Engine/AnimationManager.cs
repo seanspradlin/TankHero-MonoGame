@@ -23,13 +23,13 @@ namespace TankHero.Engine
 		{
 		}
 
-		public AnimationManager (GameObject go, SpriteFrame[] frames)
+		public AnimationManager (GameObject go, SpriteFrame[] frames, int fps = 60)
 		{
 			gameObject = go;
 			animations = new Dictionary<string, Animation> ();
 			currentAnimation = "default";
 			Game = gameObject.Game;
-			Add (currentAnimation, frames);
+			Add (currentAnimation, frames, fps);
 		}
 
 		#endregion
@@ -61,6 +61,11 @@ namespace TankHero.Engine
 			} else {
 				throw new KeyNotFoundException ();
 			}
+		}
+
+		public void Update (GameTime gameTime)
+		{
+			animations [currentAnimation].Next (gameTime);
 		}
 
 		#endregion

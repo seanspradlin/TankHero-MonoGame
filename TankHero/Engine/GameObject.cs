@@ -27,7 +27,7 @@ namespace TankHero.Engine
 			Animations = new AnimationManager (this, frames);
 		}
 
-		GameObject (Game game, Vector2 position)
+		public GameObject (Game game, Vector2 position)
 			: base (game)
 		{
 			Position = position;
@@ -38,7 +38,7 @@ namespace TankHero.Engine
 
 		#region Properties
 
-		public AnimationManager Animations { get; }
+		public AnimationManager Animations { get; protected set; }
 
 		public Rectangle Bounds { get; set; }
 

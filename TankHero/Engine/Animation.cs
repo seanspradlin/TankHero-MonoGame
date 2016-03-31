@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TexturePackerLoader;
+using System.Diagnostics;
 
 namespace TankHero.Engine
 {
@@ -13,7 +14,6 @@ namespace TankHero.Engine
 		int currentFrame = 0;
 		int lastChange = 0;
 		SpriteFrame[] frames;
-		AnimationManager manager;
 
 		#endregion
 
@@ -25,7 +25,6 @@ namespace TankHero.Engine
 				throw new Exception ("There must be at least one texture");
 			}
 
-			manager = m;
 			Game = m.Game;
 			frames = f;
 			FramesPerSecond = fps;
@@ -47,6 +46,9 @@ namespace TankHero.Engine
 
 		int delta { 
 			get {
+				if (FramesPerSecond == 0) {
+					return -1;
+				}
 				return 1000 / FramesPerSecond;
 			}
 		}
@@ -55,23 +57,27 @@ namespace TankHero.Engine
 
 		#region Methods
 
-		void Play ()
+		public void Play ()
 		{
 			if (frames.Length > 0) {
 				isPlaying = true;
 			}
 		}
 
-		void Stop ()
+		public void Stop ()
 		{
 			isPlaying = false;
 		}
 
-		void Next (GameTime gameTime)
+		public void Next (GameTime gameTime)
 		{
+			Debug.WriteLine (isPlaying);
+			Debug.WriteLine (delta);
+			Debug.WriteLine (gameTime.ElapsedGameTime.Milliseconds);
 			if (isPlaying) {
-				if (lastChange + delta <= gameTime.ElapsedGameTime.Milliseconds) {
+				if (delta > -1 && lastChange + delta <= gameTime.ElapsedGameTime.Milliseconds) {
 					if (currentFrame < frames.Length) {
+						lastChange = gameTime.ElapsedGameTime.Milliseconds;
 						currentFrame++;
 					} else {
 						currentFrame = 0;
