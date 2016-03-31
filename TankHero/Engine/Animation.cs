@@ -9,7 +9,7 @@ namespace TankHero.Engine
 		#region Fields
 
 		int currentFrame = 0;
-		int lastChange = 0;
+		double lastChange = 0;
 		SpriteFrame[] frames;
 
 		#endregion
@@ -38,7 +38,7 @@ namespace TankHero.Engine
 
 		public int FramesPerSecond { get; set; }
 
-		int delta { 
+		double delta { 
 			get {
 				if (FramesPerSecond == 0) {
 					return -1;
@@ -58,20 +58,23 @@ namespace TankHero.Engine
                 currentFrame--;
             } else
             {
-                currentFrame = frames.Length;
+                currentFrame = frames.Length - 1;
             }
         }
 
         public void Next(GameTime gameTime)
         {
-            if (currentFrame < frames.Length)
+            if (lastChange + delta < gameTime.TotalGameTime.TotalMilliseconds)
             {
-                lastChange = gameTime.ElapsedGameTime.Milliseconds;
-                currentFrame++;
-            }
-            else
-            {
-                currentFrame = 0;
+                lastChange = gameTime.TotalGameTime.TotalMilliseconds;
+                if (currentFrame < frames.Length - 1)
+                {
+                    currentFrame++;
+                }
+                else
+                {
+                    currentFrame = 0;
+                }
             }
         }
 

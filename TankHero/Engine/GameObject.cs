@@ -7,56 +7,57 @@ namespace TankHero.Engine
 {
 	public class GameObject : GameComponent
 	{
-		#region Fields
+        #region Fields
+
+        SpriteFrame _sprite;
 
 		#endregion
 
 		#region Constructors
 
-		public GameObject (Game game, SpriteFrame frame, Vector2 position)
-			: this (game, position)
+		public GameObject (Game game, SpriteFrame spriteFrame, Vector2 position): base(game)
 		{
-//			Bounds = SpriteFrame.Bounds;
-			Animations = new AnimationManager (this, frame);
+            Position = position;
+            game.Components.Add(this);
+            _sprite = spriteFrame;
 		}
 
-		public GameObject (Game game, SpriteFrame[] frames, Vector2 position)
-			: this (game, position)
-		{
-//			Bounds = textures [0].Bounds;
-			Animations = new AnimationManager (this, frames);
-		}
+        #endregion
 
-		public GameObject (Game game, Vector2 position)
-			: base (game)
-		{
-			Position = position;
-			game.Components.Add (this);
-		}
+        #region Properties
 
-		#endregion
-
-		#region Properties
-
-		public AnimationManager Animations { get; protected set; }
+        public AnimationManager Animations { get; } = new AnimationManager();
 
 		public Rectangle Bounds { get; set; }
 
 		public Vector2 Position { get; set; }
 
-		public SpriteFrame Texture { 
-			get { 
-				return Animations.CurrentFrame;
+		public SpriteFrame Sprite { 
+			get {
+                if (!Animations.IsPlaying)
+                {
+                    return _sprite;
+                }
+                else
+                {
+                    return Animations.CurrentFrame;
+                }
 			}
 		}
 
-		#endregion
+        #endregion
 
-		#region Methods
+        #region Methods
 
-		public void Draw (GameTime gameTime, SpriteRender render)
+        public override void Update(GameTime gameTime)
+        {
+            Animations.Update(gameTime);
+            base.Update(gameTime);
+        }
+
+        public void Draw (GameTime gameTime, SpriteRender render)
 		{
-			render.Draw (Animations.CurrentFrame, Position);
+			render.Draw (Sprite, Position);
 		}
 
 		#endregion

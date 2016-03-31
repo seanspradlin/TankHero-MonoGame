@@ -29,7 +29,7 @@ namespace TankHero
 			spriteSheet = loader.Load ("sprites");
 			spriteBatch = new SpriteBatch (GraphicsDevice);
 			spriteRender = new SpriteRender (spriteBatch);
-			player = new Player (this, new Vector2 (200, 200), spriteSheet);
+			player = new Player (this, spriteSheet.Sprite (TexturePackerMonoGameDefinitions.sprites.Player_body_1), new Vector2 (200, 200), spriteSheet);
 		}
 
 		protected override void Update (GameTime gameTime)

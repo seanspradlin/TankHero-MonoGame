@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using TexturePackerLoader;
 
 namespace TankHero.Engine
@@ -12,7 +11,6 @@ namespace TankHero.Engine
 
 		Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
         string currentAnimation;
-        bool isPlaying = false;
 
         #endregion
 
@@ -38,7 +36,9 @@ namespace TankHero.Engine
 			}
 		}
 
-        public bool Reverse { get; set; } = false;
+        public bool IsPlaying { get; private set; }
+
+        public bool IsReverse { get; set; } = false;
 
 		#endregion
 
@@ -66,7 +66,7 @@ namespace TankHero.Engine
         {
             if (!String.IsNullOrWhiteSpace(currentAnimation))
             {
-                isPlaying = true;
+                IsPlaying = true;
             }
             else
             {
@@ -77,7 +77,7 @@ namespace TankHero.Engine
 		public void Start (string key)
 		{
 			if (animations.ContainsKey (key)) {
-                isPlaying = true;
+                IsPlaying = true;
 				currentAnimation = key;
 			} else {
 				throw new KeyNotFoundException ();
@@ -86,19 +86,20 @@ namespace TankHero.Engine
 
         public void Stop ()
         {
-            isPlaying = false;
+            IsPlaying = false;
         }
 
 		public void Update (GameTime gameTime)
 		{
-            if (isPlaying && CurrentAnimation != null)
+            if (IsPlaying && CurrentAnimation != null)
             {
-                if (Reverse)
-                {
-                    CurrentAnimation.Next(gameTime);
-                } else
+                if (IsReverse)
                 {
                     CurrentAnimation.Previous(gameTime);
+                }
+                else
+                {
+                    CurrentAnimation.Next(gameTime);
                 }
             }
         }
