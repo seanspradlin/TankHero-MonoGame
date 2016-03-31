@@ -21,13 +21,14 @@ namespace TankHero.Engine
 			Position = position;
 			game.Components.Add (this);
 			_sprite = spriteFrame;
+			Animations = new AnimationManager (this);
 		}
 
 		#endregion
 
 		#region Properties
 
-		public AnimationManager Animations { get; } = new AnimationManager();
+		public AnimationManager Animations { get; }
 
 		public Rectangle Bounds { get; set; }
 
@@ -49,15 +50,15 @@ namespace TankHero.Engine
 
 		#region Methods
 
-		public override void Update (GameTime gameTime)
+		public virtual void Update ()
 		{
-			Animations.Update (gameTime);
-			base.Update (gameTime);
+			Animations.Update ();
+			base.Update (Game.Time);
 		}
 
-		public void Draw (GameTime gameTime, SpriteRender render)
+		public void Draw ()
 		{
-			render.Draw (Sprite, Position);
+			Game.Renderer.Draw (Sprite, Position);
 		}
 
 		#endregion

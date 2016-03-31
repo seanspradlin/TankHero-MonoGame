@@ -21,6 +21,7 @@ namespace TankHero.Engine
 		{
 			graphics = new GraphicsDeviceManager (this);
 			Content.RootDirectory = "Content";
+			Time = new GameTime ();
 		}
 
 		#endregion

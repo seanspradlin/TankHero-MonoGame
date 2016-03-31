@@ -16,7 +16,7 @@ namespace TankHero.Engine
 
 		#region Constructors
 
-		public Animation (SpriteFrame[] f, int fps = 0)
+		public Animation (AnimationManager manager, SpriteFrame[] f, int fps = 0)
 		{
 			if (f.Length == 0) {
 				throw new Exception ("There must be at least one texture");
@@ -24,11 +24,20 @@ namespace TankHero.Engine
 
 			frames = f;
 			FramesPerSecond = fps;
+			Manager = manager;
+			GameObject = manager.GameObject;
+			Game = manager.Game;
 		}
 
 		#endregion
 
 		#region Properties
+
+		public SGame Game { get; }
+
+		public GameObject GameObject { get; }
+
+		public AnimationManager Manager { get; }
 
 		public SpriteFrame Frame {
 			get {
@@ -51,34 +60,36 @@ namespace TankHero.Engine
 
 		#region Methods
 
-        public void Previous (GameTime gameTime)
-        {
-            if (currentFrame > 0)
-            {
-                currentFrame--;
-            } else
-            {
-                currentFrame = frames.Length - 1;
-            }
-        }
+		public void Previous ()
+		{
+			if (isNextFrameReady ()) {
+				lastChange = Game.Time.TotalGameTime.TotalMilliseconds;
+				if (currentFrame > 0) {
+					currentFrame--;
+				} else {
+					currentFrame = frames.Length - 1;
+				}
+			}
+		}
 
-        public void Next(GameTime gameTime)
-        {
-            if (lastChange + delta < gameTime.TotalGameTime.TotalMilliseconds)
-            {
-                lastChange = gameTime.TotalGameTime.TotalMilliseconds;
-                if (currentFrame < frames.Length - 1)
-                {
-                    currentFrame++;
-                }
-                else
-                {
-                    currentFrame = 0;
-                }
-            }
-        }
+		public void Next ()
+		{
+			if (isNextFrameReady ()) {
+				lastChange = Game.Time.TotalGameTime.TotalMilliseconds;
+				if (currentFrame < frames.Length - 1) {
+					currentFrame++;
+				} else {
+					currentFrame = 0;
+				}
+			}
+		}
 
-        #endregion
-    }
+		bool isNextFrameReady ()
+		{
+			return lastChange + delta < Game.Time.TotalGameTime.TotalMilliseconds;
+		}
+
+		#endregion
+	}
 }
 

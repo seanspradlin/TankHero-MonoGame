@@ -22,6 +22,11 @@ namespace TankHero
 			base.LoadContent ();
 		}
 
+		protected override void Update (GameTime GameTime)
+		{
+			player.Update ();
+		}
+
 		protected override void Draw (GameTime gameTime)
 		{
 			graphics.GraphicsDevice.Clear (Color.CornflowerBlue);
@@ -31,7 +36,7 @@ namespace TankHero
 //				spriteSheet.Sprite (TexturePackerMonoGameDefinitions.sprites.Player_body_1),
 //				new Vector2 (150, 150)
 //			);
-			player.Draw (gameTime, Renderer);
+			player.Draw ();
 			spriteBatch.End ();
 
 			base.Draw (gameTime);
