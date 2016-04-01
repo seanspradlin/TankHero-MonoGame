@@ -26,6 +26,10 @@ namespace TankHero.Engine
 			_sprite = spriteFrame;
 			Animations = new AnimationManager (this);
 			Children = new Dictionary<string, GameObject> ();
+			Scale = 1;
+			Rotation = 0;
+			SpriteEffects = SpriteEffects.None;
+			Color = Color.White;
 		}
 
 		public GameObject (GameObject parent, SpriteFrame spriteFrame, Vector2 position)
@@ -62,6 +66,12 @@ namespace TankHero.Engine
 			}
 		}
 
+		public float Rotation { get; set; }
+
+		public float Scale { get; set; }
+
+		public Color Color { get; set; }
+
 		public SpriteFrame Sprite { 
 			get {
 				if (!Animations.IsPlaying) {
@@ -71,6 +81,8 @@ namespace TankHero.Engine
 				}
 			}
 		}
+
+		public SpriteEffects SpriteEffects { get; set; }
 
 		#endregion
 
@@ -94,9 +106,9 @@ namespace TankHero.Engine
 
 		public void Draw ()
 		{
-			Game.Renderer.Draw (Sprite, Position);
+			Game.Renderer.Draw (Sprite, GlobalPosition, Color, Rotation, Scale, SpriteEffects);
 			Children.Values.ToList ().ForEach (x => {
-				Game.Renderer.Draw (x.Sprite, x.GlobalPosition);
+				x.Draw ();
 			});
 		}
 
